@@ -18,27 +18,37 @@
         href: switchOrganisationHref
       }) }}
 
-      {% if isSuccess %}
+      {% if isSuccess === true %}
 
         {% call govukNotificationBanner({ type: "success" }) %}
-          <h3 class="govuk-notification-banner__heading">{{ message }}</h3>
+          <h3 class="govuk-notification-banner__heading">Software providers retrieved successfully.</h3>
         {% endcall %}
 
         {{ govukTable({
           caption: "Software Providers",
           captionClasses: "govuk-table__caption--m",
           firstCellIsHeader: true,
-          head: head,
+          head: [
+              {
+                text: "Name"
+              },
+              {
+                text: "Client ID"
+              },
+              {
+                text: "Creation Date"
+              }
+            ],
           rows: rows
         }) }}
 
-      {% elif message %}
+      {% elif isSuccess === false %}
 
         {{ govukErrorSummary({
           titleText: "There is a problem",
           errorList: [
             {
-              text: message
+              text: "Software provider retrieval failed."
             }
           ]
         }) }}

@@ -29,8 +29,7 @@ export const pageLoad = {
 
 export const retrieveSoftwareProviders = {
   async handler(_request, h) {
-    let message = ''
-    let isSuccess = false
+    let isSuccess = true
     let softwareProviders = []
 
     logger.info('retrieving software provider details...')
@@ -45,23 +44,15 @@ export const retrieveSoftwareProviders = {
           { text: new Date(CreationDate).toLocaleDateString('en-GB') }
         ]
       )
-
-      isSuccess = true
-      message = 'Software providers retrieved successfully.'
     } catch (error) {
-      message = 'Software provider retrieval failed'
+      logger.error('Error retrieving software provider details...')
+      isSuccess = false
     }
 
     return h.view('providers/index', {
       pageTitle: 'Software Providers',
       heading: 'Software Providers',
-      message,
       isSuccess,
-      head: [
-        { text: 'Name' },
-        { text: 'Client ID' },
-        { text: 'Creation Date' }
-      ],
       rows: softwareProviders,
       breadcrumbs: [
         {
