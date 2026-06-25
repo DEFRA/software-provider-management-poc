@@ -16,6 +16,29 @@ const isDevelopment = process.env.NODE_ENV === 'development'
 convict.addFormats(convictFormatWithValidator)
 
 export const config = convict({
+  cognito: {
+    userPoolId: {
+      doc: 'AWS Cognito User Pool ID.',
+      format: String,
+      nullable: false,
+      default: '',
+      env: 'COGNITO_USER_POOL_ID'
+    },
+    region: {
+      doc: 'AWS region where the Cognito User Pool is hosted.',
+      format: String,
+      nullable: false,
+      default: 'region',
+      env: 'AWS_REGION'
+    },
+    pageSize: {
+      doc: 'Number of clients per page.',
+      format: Number,
+      nullable: false,
+      default: 2,
+      env: 'COGNITO_PAGE_SIZE'
+    }
+  },
   serviceVersion: {
     doc: 'The service version, this variable is injected into your docker container in CDP environments',
     format: String,

@@ -69,6 +69,11 @@ describe('context and cache', () => {
               current: false,
               text: 'About',
               href: '/about'
+            },
+            {
+              current: false,
+              href: '/software-providers',
+              text: 'Software Providers'
             }
           ],
           serviceName: 'software-provider-management-poc',
@@ -158,6 +163,11 @@ describe('context and cache', () => {
               current: false,
               text: 'About',
               href: '/about'
+            },
+            {
+              current: false,
+              href: '/software-providers',
+              text: 'Software Providers'
             }
           ],
           serviceName: 'software-provider-management-poc',
