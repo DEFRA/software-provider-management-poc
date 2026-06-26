@@ -37,6 +37,7 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "3.1068.0",
+    "@aws-sdk/node-http-handler": "3.370.0",
     "@defra/cdp-auditing": "0.6.1",
     "@defra/cdp-metrics": "0.6.0",
     "@defra/hapi-secure-context": "0.4.0",
@@ -58,10 +59,12 @@
     "govuk-frontend": "5.13.0",
     "hapi-pino": "13.0.0",
     "hapi-pulse": "3.0.0",
+    "hpagent": "1.2.0",
     "ioredis": "5.8.2",
     "lodash": "4.18.1",
     "nunjucks": "3.2.4",
-    "pino": "10.1.0"
+    "pino": "10.1.0",
+    "proxy-agent": "8.0.2"
   },
   "devDependencies": {
     "@babel/preset-env": "7.29.2",

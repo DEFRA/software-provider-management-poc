@@ -5,11 +5,17 @@ import {
 } from '@aws-sdk/client-cognito-identity-provider'
 import { createLogger } from '#/server/common/helpers/logging/logger.js'
 import { config } from '#/config/config.js'
+import { NodeHttpHandler } from '@aws-sdk/node-http-handler'
+import { HttpsProxyAgent } from 'hpagent'
 
 const logger = createLogger()
 const { userPoolId, region, pageSize } = config.get('cognito')
+
 const client = new CognitoIdentityProviderClient({
-  region
+  region,
+  requestHandler: new NodeHttpHandler({
+    httpsAgent: new HttpsProxyAgent({ proxy: config.get('httpProxy') })
+  })
 })
 export const getClientDetails = async () => {
   logger.info('retrieving client details...')
