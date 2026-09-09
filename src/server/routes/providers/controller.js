@@ -35,7 +35,7 @@ export const retrieveSoftwareProviders = {
     logger.info('retrieving software provider details...')
 
     try {
-      const details = await allCognitoCredentials();
+      const details = await allCognitoCredentials()
 
       logger.info('retrieve software provider details...')
       logger.info(details)

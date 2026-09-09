@@ -43,11 +43,17 @@ async function allCognitoCredentials() {
   )
 
   if (res.statusCode !== 200) {
-    logger.error(`Failed to fetch Cognito credentials. Status code: ${res.statusCode}`)
-    throw new Error(`Failed to fetch Cognito credentials. Status code: ${res.statusCode}`)
+    logger.error(
+      `Failed to fetch Cognito credentials. Status code: ${res.statusCode}`
+    )
+    throw new Error(
+      `Failed to fetch Cognito credentials. Status code: ${res.statusCode}`
+    )
   }
 
-  logger.info('Successfully fetched all Cognito credentials from the backend service.')
+  logger.info(
+    'Successfully fetched all Cognito credentials from the backend service.'
+  )
   logger.info(payload)
   return payload
 }
