@@ -4,7 +4,7 @@
  */
 
 import { createLogger } from '../../common/helpers/logging/logger.js'
-import { getClientDetails } from '#/server/common/helpers/cognito-client.js'
+import { allCognitoCredentials } from '#/server/common/helpers/cognito-credentials-http-client.js'
 
 const logger = createLogger()
 
@@ -35,7 +35,10 @@ export const retrieveSoftwareProviders = {
     logger.info('retrieving software provider details...')
 
     try {
-      const details = await getClientDetails()
+      const details = await allCognitoCredentials();
+
+      logger.info('retrieve software provider details...')
+      logger.info(details)
 
       softwareProviders = details.map(
         ({ UserPoolClient: { ClientName, ClientId, CreationDate } }) => [
@@ -46,6 +49,7 @@ export const retrieveSoftwareProviders = {
       )
     } catch (error) {
       logger.error('Error retrieving software provider details...')
+      logger.error(error)
       isSuccess = false
     }
 
