@@ -1,0 +1,61 @@
+import Wreck from '@hapi/wreck'
+import { createLogger } from '#/server/common/helpers/logging/logger.js'
+import { SignatureV4 } from '@aws-sdk/signature-v4'
+import { defaultProvider } from '@aws-sdk/credential-provider-node'
+import { HttpRequest } from '@smithy/protocol-http'
+import { Sha256 } from '@aws-crypto/sha256-js'
+import { config } from '#/config/config.js'
+
+const logger = createLogger()
+const { baseUrl, region } = config.get('cognito')
+const serviceName = config.get('serviceName')
+
+const FETCH_DETAILS_PATH = `/tenants/services/${serviceName}/user-pool/fetch-details`
+
+const signer = new SignatureV4({
+  credentials: defaultProvider(),
+  region,
+  service: serviceName,
+  sha256: Sha256
+})
+
+async function allCognitoCredentials() {
+  logger.info('Fetching all Cognito credentials from the backend service...')
+
+  const requestToSign = new HttpRequest({
+    method: 'GET',
+    protocol: 'https:',
+    hostname: baseUrl,
+    path: FETCH_DETAILS_PATH,
+    headers: {
+      host: baseUrl
+    }
+  })
+
+  const signed = await signer.sign(requestToSign)
+
+  const { res, payload } = await Wreck.get(
+    `https://${baseUrl}${FETCH_DETAILS_PATH}`,
+    {
+      headers: signed.headers,
+      method: signed.method
+    }
+  )
+
+  if (res.statusCode !== 200) {
+    logger.error(
+      `Failed to fetch Cognito credentials. Status code: ${res.statusCode}`
+    )
+    throw new Error(
+      `Failed to fetch Cognito credentials. Status code: ${res.statusCode}`
+    )
+  }
+
+  logger.info(
+    'Successfully fetched all Cognito credentials from the backend service.'
+  )
+  logger.info(payload)
+  return payload
+}
+
+export { allCognitoCredentials }

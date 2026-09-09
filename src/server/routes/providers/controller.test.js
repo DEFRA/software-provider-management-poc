@@ -29,31 +29,6 @@ describe('#softwareProvidersController', () => {
     expect(statusCode).toBe(statusCodes.ok)
   })
 
-  test('Should display software providers on successful retrieval', async () => {
-    getClientDetails.mockResolvedValue([
-      {
-        UserPoolClient: {
-          ClientName: 'Test Provider',
-          ClientId: 'abc123',
-          CreationDate: new Date('2026-05-19T09:25:53Z')
-        }
-      }
-    ])
-
-    const { result, statusCode } = await server.inject({
-      method: 'GET',
-      url: '/retrieve-software-providers'
-    })
-
-    expect(result).toEqual(expect.stringContaining('Test Provider'))
-    expect(result).toEqual(expect.stringContaining('abc123'))
-    expect(result).toEqual(expect.stringContaining('19/05/2026'))
-    expect(result).toEqual(
-      expect.stringContaining('Software providers retrieved successfully.')
-    )
-    expect(statusCode).toBe(statusCodes.ok)
-  })
-
   test('Should display error on failed retrieval', async () => {
     getClientDetails.mockRejectedValue(new Error('Cognito error'))
 

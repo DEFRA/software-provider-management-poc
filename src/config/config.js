@@ -37,6 +37,13 @@ export const config = convict({
       nullable: false,
       default: 2,
       env: 'COGNITO_PAGE_SIZE'
+    },
+    baseUrl: {
+      doc: 'The cdp base url.',
+      format: String,
+      nullable: false,
+      default: 'localhost:3000',
+      env: 'CDP_BASE_API_URL'
     }
   },
   serviceVersion: {
