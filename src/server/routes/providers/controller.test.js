@@ -2,7 +2,6 @@ import { vi } from 'vitest'
 import { createServer } from '#/server/server.js'
 import { statusCodes } from '#/server/common/constants/status-codes.js'
 import { getClientDetails } from '#/server/common/helpers/cognito-client.js'
-import { allCognitoCredentials } from '#/server/common/helpers/cognito-credentials-http-client.js'
 
 vi.mock('#/server/common/helpers/cognito-client.js', () => ({
   getClientDetails: vi.fn()
