@@ -10,12 +10,13 @@ const logger = createLogger()
 const { baseUrl, region } = config.get('cognito')
 const serviceName = config.get('serviceName')
 
-const fetchDetailsPath = `/dev/tenants/services/${serviceName}/user-pool/fetch-details`
+// const fetchDetailsPath = `/dev/tenants/services/${serviceName}/user-pool/fetch-details`
+const fetchDetailsPath = `/570c4d63-d57a-42bf-aaaa-a15b912a2761/5f0a49a3-f1ff-4077-98ac-3bb336f56c3d/1/tenants/services/${serviceName}/user-pool/fetch-details`
 
 const signer = new SignatureV4({
   credentials: defaultProvider(),
   region,
-  service: serviceName,
+  service: 'execute-api',
   sha256: Sha256
 })
 
@@ -32,6 +33,8 @@ async function allCognitoCredentials() {
     }
   })
 
+  logger.info(`The request being made ${JSON.stringify(requestToSign)}`)
+
   let signed
   try {
     signed = await signer.sign(requestToSign)
@@ -39,6 +42,9 @@ async function allCognitoCredentials() {
     logger.error('Error signing the request:', error)
     throw new Error('Error signing the request: ' + error.message)
   }
+
+  logger.info(`The signed request ${JSON.stringify(signed)}`)
+  logger.info(`The request URL: https://${baseUrl}${fetchDetailsPath}`)
 
   let res, payload
   try {

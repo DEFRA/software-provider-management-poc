@@ -38,7 +38,7 @@ export const retrieveSoftwareProviders = {
       const details = await allCognitoCredentials()
 
       logger.info('retrieve software provider details...')
-      logger.info(details)
+      logger.info(JSON.stringify(details))
 
       softwareProviders = details.map(
         ({ UserPoolClient: { ClientName, ClientId, CreationDate } }) => [
