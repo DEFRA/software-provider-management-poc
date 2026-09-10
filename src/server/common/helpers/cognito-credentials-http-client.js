@@ -32,15 +32,27 @@ async function allCognitoCredentials() {
     }
   })
 
-  const signed = await signer.sign(requestToSign)
+  let signed
+  try {
+    signed = await signer.sign(requestToSign)
+  } catch (error) {
+    logger.error('Error signing the request:', error)
+    throw new Error('Error signing the request: ' + error.message)
+  }
 
-  const { res, payload } = await Wreck.get(
-    `https://${baseUrl}${fetchDetailsPath}`,
-    {
-      headers: signed.headers,
-      method: signed.method
-    }
-  )
+  let res, payload
+  try {
+    ;({ res, payload } = await Wreck.get(
+      `https://${baseUrl}${fetchDetailsPath}`,
+      {
+        headers: signed.headers,
+        method: signed.method
+      }
+    ))
+  } catch (error) {
+    logger.error('Error fetching Cognito credentials:', error)
+    throw new Error('Error fetching Cognito credentials: ' + error.message)
+  }
 
   if (res.statusCode !== 200) {
     logger.error(
