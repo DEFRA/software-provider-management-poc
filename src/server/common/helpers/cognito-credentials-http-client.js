@@ -8,9 +8,9 @@ import { config } from '#/config/config.js'
 
 const logger = createLogger()
 const { baseUrl, region } = config.get('cognito')
-const serviceName = config.get('serviceName')
+// const serviceName = config.get('serviceName')
 
-const fetchDetailsPath = `/dev/tenants/services/${serviceName}/user-pool/fetch-details`
+const fetchDetailsPath = `/dev/tenants/services/waste-movement-external-api/user-pool/fetch-details`
 
 const signer = new SignatureV4({
   credentials: defaultProvider(),
