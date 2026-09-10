@@ -10,7 +10,7 @@ const logger = createLogger()
 const { baseUrl, region } = config.get('cognito')
 const serviceName = config.get('serviceName')
 
-const FETCH_DETAILS_PATH = `/tenants/services/${serviceName}/user-pool/fetch-details`
+const fetchDetailsPath = `/dev/tenants/services/${serviceName}/user-pool/fetch-details`
 
 const signer = new SignatureV4({
   credentials: defaultProvider(),
@@ -26,7 +26,7 @@ async function allCognitoCredentials() {
     method: 'GET',
     protocol: 'https:',
     hostname: baseUrl,
-    path: FETCH_DETAILS_PATH,
+    path: fetchDetailsPath,
     headers: {
       host: baseUrl
     }
@@ -35,7 +35,7 @@ async function allCognitoCredentials() {
   const signed = await signer.sign(requestToSign)
 
   const { res, payload } = await Wreck.get(
-    `https://${baseUrl}${FETCH_DETAILS_PATH}`,
+    `https://${baseUrl}${fetchDetailsPath}`,
     {
       headers: signed.headers,
       method: signed.method
