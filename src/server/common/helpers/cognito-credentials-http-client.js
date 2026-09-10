@@ -10,8 +10,7 @@ const logger = createLogger()
 const { baseUrl, region } = config.get('cognito')
 const serviceName = config.get('serviceName')
 
-// const fetchDetailsPath = `/dev/tenants/services/${serviceName}/user-pool/fetch-details`
-const fetchDetailsPath = `/570c4d63-d57a-42bf-aaaa-a15b912a2761/5f0a49a3-f1ff-4077-98ac-3bb336f56c3d/1/tenants/services/${serviceName}/user-pool/fetch-details`
+const fetchDetailsPath = `/dev/tenants/services/${serviceName}/user-pool/fetch-details`
 
 const signer = new SignatureV4({
   credentials: defaultProvider(),
