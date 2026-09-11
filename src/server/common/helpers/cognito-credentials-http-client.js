@@ -51,7 +51,7 @@ async function allCognitoCredentials() {
       `https://${baseUrl}${fetchDetailsPath}`,
       {
         headers: signed.headers,
-        method: signed.method
+        json: true
       }
     ))
   } catch (error) {
@@ -71,7 +71,7 @@ async function allCognitoCredentials() {
   logger.info(
     'Successfully fetched all Cognito credentials from the backend service.'
   )
-  logger.info(payload)
+  logger.info(JSON.stringify(payload))
   return payload
 }
 
