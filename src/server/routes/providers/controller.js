@@ -38,12 +38,11 @@ export const retrieveSoftwareProviders = {
       const details = await allCognitoCredentials()
 
       logger.info('retrieve software provider details...')
-      logger.info(JSON.stringify(details))
 
       softwareProviders = details.body.client_details.map(
-        ({ client_name, client_id }) => [
-          { text: client_name },
-          { text: client_id }
+        ({ client_name: clientName, client_id: clientId }) => [
+          { text: clientName },
+          { text: clientId }
         ]
       )
     } catch (error) {

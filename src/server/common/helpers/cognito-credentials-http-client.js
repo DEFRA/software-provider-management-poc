@@ -53,7 +53,7 @@ async function allCognitoCredentials() {
   logger.info(
     'Successfully fetched all Cognito credentials from the backend service.'
   )
-  logger.info(JSON.stringify(payload))
+
   return payload
 }
 
