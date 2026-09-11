@@ -40,11 +40,10 @@ export const retrieveSoftwareProviders = {
       logger.info('retrieve software provider details...')
       logger.info(JSON.stringify(details))
 
-      softwareProviders = details.map(
-        ({ UserPoolClient: { ClientName, ClientId, CreationDate } }) => [
-          { text: ClientName },
-          { text: ClientId },
-          { text: new Date(CreationDate).toLocaleDateString('en-GB') }
+      softwareProviders = details.body.client_details.map(
+        ({ client_name, client_id }) => [
+          { text: client_name },
+          { text: client_id }
         ]
       )
     } catch (error) {

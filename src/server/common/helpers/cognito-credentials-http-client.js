@@ -8,7 +8,6 @@ import { config } from '#/config/config.js'
 
 const logger = createLogger()
 const { baseUrl, region } = config.get('cognito')
-// const serviceName = config.get('serviceName')
 
 const fetchDetailsPath = `/dev/tenants/services/waste-movement-external-api/user-pool/fetch-details`
 
@@ -32,32 +31,15 @@ async function allCognitoCredentials() {
     }
   })
 
-  logger.info(`The request being made ${JSON.stringify(requestToSign)}`)
+  const signed = await signer.sign(requestToSign)
 
-  let signed
-  try {
-    signed = await signer.sign(requestToSign)
-  } catch (error) {
-    logger.error('Error signing the request:', error)
-    throw new Error('Error signing the request: ' + error.message)
-  }
-
-  logger.info(`The signed request ${JSON.stringify(signed)}`)
-  logger.info(`The request URL: https://${baseUrl}${fetchDetailsPath}`)
-
-  let res, payload
-  try {
-    ;({ res, payload } = await Wreck.get(
-      `https://${baseUrl}${fetchDetailsPath}`,
-      {
-        headers: signed.headers,
-        json: true
-      }
-    ))
-  } catch (error) {
-    logger.error('Error fetching Cognito credentials:', error)
-    throw new Error('Error fetching Cognito credentials: ' + error.message)
-  }
+  const { res, payload } = await Wreck.get(
+    `https://${baseUrl}${fetchDetailsPath}`,
+    {
+      headers: signed.headers,
+      json: true
+    }
+  )
 
   if (res.statusCode !== 200) {
     logger.error(
