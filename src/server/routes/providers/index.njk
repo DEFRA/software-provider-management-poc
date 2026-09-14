@@ -3,6 +3,8 @@
 {% from "govuk/components/button/macro.njk" import govukButton %}
 {% from "govuk/components/notification-banner/macro.njk" import govukNotificationBanner %}
 {% from "govuk/components/error-summary/macro.njk" import govukErrorSummary %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
 
 {% block content %}
   {{ appHeading({
@@ -51,6 +53,48 @@
         }) }}
 
       {% endif %}
+
+      <h2 class="govuk-heading-l">Create software provider</h2>
+
+            <form method="post" action="{{ createClientHref }}">
+
+              {{ govukInput({
+                label: {
+                  text: "Software provider name"
+                },
+                id: "software-provider-name",
+                name: "softwareProviderName"
+              }) }}
+
+              {{ govukButton({
+                text: "Submit",
+                type: "submit"
+              }) }}
+
+            </form>
+
+            {% if createdClients and createdClients.length > 0 %}
+
+                    <h2 class="govuk-heading-l">Created software providers</h2>
+
+                    {{ govukTable({
+                      captionClasses: "govuk-table__caption--m",
+                      firstCellIsHeader: true,
+                      head: [
+                          {
+                            text: "Name"
+                          },
+                          {
+                            text: "Client ID"
+                          },
+                          {
+                            text: "Client Secret"
+                          }
+                        ],
+                      rows: createdClients
+                    }) }}
+
+                  {% endif %}
 
     </div>
   </div>

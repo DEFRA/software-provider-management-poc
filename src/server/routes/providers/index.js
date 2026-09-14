@@ -1,4 +1,8 @@
-import { pageLoad, retrieveSoftwareProviders } from './controller.js'
+import {
+  pageLoad,
+  retrieveSoftwareProviders,
+  createSoftwareProvider
+} from './controller.js'
 
 /**
  * Sets up the routes used in the /about page.
@@ -15,6 +19,11 @@ export const softwareProviders = {
       method: 'GET',
       path: '/retrieve-software-providers',
       ...retrieveSoftwareProviders
+    },
+    {
+      method: 'POST',
+      path: '/create-software-provider',
+      ...createSoftwareProvider
     }
   ]
 }

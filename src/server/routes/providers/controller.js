@@ -4,7 +4,10 @@
  */
 
 import { createLogger } from '../../common/helpers/logging/logger.js'
-import { allCognitoCredentials } from '#/server/common/helpers/cognito-credentials-http-client.js'
+import {
+  allCognitoCredentials,
+  createCognitoCredentials
+} from '#/server/common/helpers/cognito-credentials-http-client.js'
 
 const logger = createLogger()
 
@@ -13,6 +16,7 @@ export const pageLoad = {
     return h.view('providers/index', {
       pageTitle: 'Software Providers',
       switchOrganisationHref: '/retrieve-software-providers',
+      createClientHref: '/create-software-provider',
       heading: 'Software Providers',
       breadcrumbs: [
         {
@@ -56,6 +60,48 @@ export const retrieveSoftwareProviders = {
       heading: 'Software Providers',
       isSuccess,
       rows: softwareProviders,
+      breadcrumbs: [
+        {
+          text: 'Home',
+          href: '/'
+        },
+        {
+          text: 'Software Providers'
+        }
+      ]
+    })
+  }
+}
+
+export const createSoftwareProvider = {
+  async handler(request, h) {
+    let createdSoftwareProviders = []
+
+    const { softwareProviderName } = request.payload
+
+    logger.info(`Creating software provider [${softwareProviderName}]`)
+
+    try {
+      const response = await createCognitoCredentials({
+        clientName: softwareProviderName
+      })
+
+      createdSoftwareProviders = response.body.client_details.map(
+        ({
+          client_name: clientName,
+          client_id: clientId,
+          client_secret: clientSecret
+        }) => [{ text: clientName }, { text: clientId }, { text: clientSecret }]
+      )
+    } catch (error) {
+      logger.error('Error creating software providers')
+      logger.error(error)
+    }
+
+    return h.view('providers/index', {
+      pageTitle: 'Software Providers',
+      heading: 'Software Providers',
+      createdClients: createdSoftwareProviders,
       breadcrumbs: [
         {
           text: 'Home',
