@@ -92,7 +92,7 @@ async function createCognitoCredentials(clientName) {
 
   if (res.statusCode !== 200) {
     logger.error(
-      `Failed to create Cognito credentials. Status code: ${res.statusCode}`
+      `Failed to create Cognito credentials. Status code: ${res.statusCode} with payload ${JSON.stringify(payload)}`
     )
     throw new Error(
       `Failed to create Cognito credentials. Status code: ${res.statusCode}`
