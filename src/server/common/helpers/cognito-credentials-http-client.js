@@ -10,7 +10,9 @@ const logger = createLogger()
 const { baseUrl, region } = config.get('cognito')
 
 const fetchDetailsPath = `/dev/tenants/services/waste-movement-external-api/user-pool/fetch-details`
-const createClientPath = `/dev/tenants/services/waste-movement-external-api/user-pool/create-clients`
+// const createClientPath = `/dev/tenants/services/waste-movement-external-api/user-pool/create-clients`
+const createClientPath =
+  '/b8b2d0cc-9101-45d2-9c09-7e1a0367b5fc/tenants/services/waste-movement-external-api/user-pool/fetch-details'
 
 const signer = new SignatureV4({
   credentials: defaultProvider(),
@@ -61,6 +63,8 @@ async function createCognitoCredentials(clientName) {
   logger.info('Creating a new Cognito client...')
 
   const body = JSON.stringify({ client_names: [clientName] })
+
+  logger.info(`Request body: ${body}`)
 
   const requestToSign = new HttpRequest({
     method: 'POST',

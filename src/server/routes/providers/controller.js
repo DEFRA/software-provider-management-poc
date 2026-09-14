@@ -82,9 +82,7 @@ export const createSoftwareProvider = {
     logger.info(`Creating software provider [${softwareProviderName}]`)
 
     try {
-      const response = await createCognitoCredentials({
-        clientName: softwareProviderName
-      })
+      const response = await createCognitoCredentials(softwareProviderName)
 
       createdSoftwareProviders = response.body.client_details.map(
         ({
